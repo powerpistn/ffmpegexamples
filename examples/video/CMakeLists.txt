@@ -6,8 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(${CMAKE_SOURCE_DIR}/3rdParty/include/ffmpeg)
 link_directories(${CMAKE_SOURCE_DIR}/3rdParty/lib)
 
-add_executable(videoExamples getAudioMetadata.cpp)
-#add_executable(videoExamples transcode.cpp)
+add_executable(videoExamples getVideoMetadata.cpp)
 target_link_libraries(videoExamples 
        avcodec
        avutil
