@@ -191,12 +191,15 @@ int main()
 
         std::string name="big_buck_bunny";
         char buf[1024];
+        int keyCount=0;
         while (av_read_frame(fmtCtx, pkt) >= 0) { //读取的是一帧视频  数据存入一个AVPacket的结构中
             if (pkt->stream_index == videoStreamIndex){
                 if (avcodec_send_packet(codecCtx, pkt) == 0){
                     while (avcodec_receive_frame(codecCtx, yuvFrame) == 0){
-                        if (++i <= 500 && i >= 455){
-                            snprintf(buf, sizeof(buf), "%s/%d_%f_%s.jpg", out_filename, i,yuvFrame->pts*av_q2d(fmtCtx->streams[videoStreamIndex]->time_base),name.c_str());
+                        i++;
+                        if (yuvFrame->key_frame==1){
+                            keyCount++;
+                            snprintf(buf, sizeof(buf), "%s/%d_%f_%s.jpg", out_filename, keyCount,yuvFrame->pts*av_q2d(fmtCtx->streams[videoStreamIndex]->time_base),name.c_str());
                             saveJpg(yuvFrame, buf); //保存为jpg图片
 
                         }
@@ -212,12 +215,13 @@ int main()
             while (avcodec_receive_frame(codecCtx, yuvFrame) == 0)
             {
                 i++;
-                snprintf(buf, sizeof(buf), "%s/%d_%f_%s.jpg", out_filename, i,yuvFrame->pts*av_q2d(fmtCtx->streams[videoStreamIndex]->time_base),name.c_str());
+                keyCount++;
+                snprintf(buf, sizeof(buf), "%s/%d_%f_%s.jpg", out_filename, keyCount,yuvFrame->pts*av_q2d(fmtCtx->streams[videoStreamIndex]->time_base),name.c_str());
                 saveJpg(yuvFrame, buf); //保存为jpg图片
             }
         }
         std::cout<<"帧数为"<<i<<std::endl;
-
+        std::cout<<"关键帧为"<<keyCount<<std::endl;
     }while(0);
 
 
@@ -237,5 +241,6 @@ int main()
 
     return ret;
 }
+
 
 
