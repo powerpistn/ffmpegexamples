@@ -1,3 +1,7 @@
 ##记录ffmpeg结构体
 
-1）AVFormatContext
+1）AVFormatContext:该结构体存储音视频封装格式中的信息
+2)AVCodecContext:该结构体描述编解码器上下文信息，包含编解码器需要的各种参数
+3)AVPacket:
+4)AVFrame:
+
