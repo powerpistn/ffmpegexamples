@@ -1,4 +1,4 @@
-///视频提取音频保存为AAC
+///从视频提取音频保存为AAC
 #include <iostream>
 
 extern "C" {
